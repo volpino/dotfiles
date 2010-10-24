@@ -1,0 +1,20 @@
+Config { font = "xft:Terminus:pixelsize=8"
+       , bgColor = "#3f3f3f"
+       , fgColor = "gray"
+       , position = Top
+       , lowerOnStart = True
+       , commands = [
+                     Run Network "wlan0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                    , Run Com "screen-cpufreq-core1" [] "" 5
+                    , Run Com "screen-cpufreq-core2" [] "" 5
+                    , Run Com "screen-temp-core1" [] "" 5
+                    , Run Com "screen-temp-core2" [] "" 5
+                    , Run Memory ["-t","Mem: <usedratio>%"] 10
+    		    	, Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+					, Run Battery ["-L","50","-H","75","--high","green","--normal","yellow", "--low", "red"] 10
+					, Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{| %wlan0% | %screen-cpufreq-core1% Mhz | %screen-cpufreq-core2% Mhz | %screen-temp-core1% C | %screen-temp-core2% C | %memory% | %battery% | <fc=#ee9a00>%date%</fc>                " 
+       }

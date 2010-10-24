@@ -1,0 +1,1 @@
+sensors | grep "Core 1:" | sed -e 's/.* +\(.*\).0°C .*/\1/' | sed -e 's/\"//g'

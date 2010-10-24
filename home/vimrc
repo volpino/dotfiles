@@ -1,0 +1,133 @@
+" fox .vimrc
+
+" general
+set nocompatible
+syntax on
+colorscheme desert
+set bg=dark
+filetype plugin indent on
+let mapleader = ","
+set history=1000
+set title
+set scrolloff=3
+
+" indenting
+set ai
+set si
+
+" scrollbars
+set sidescrolloff=2
+set numberwidth=4
+
+" windows
+set equalalways
+set splitbelow splitright
+:noremap ,v :vsp^M^W^W<cr>
+:noremap ,h :split^M^W^W<cr>
+
+" tabbing
+set ts=4
+set sts=4
+set sw=4
+set expandtab
+set smarttab
+
+" searching
+set hlsearch
+set incsearch
+set ic
+set smartcase
+
+" cursor and style
+set number
+set cursorline
+set showcmd
+set ruler
+set showmatch
+
+" line wrapping
+set nowrap
+set sidescroll=1
+set listchars+=precedes:<,extends:>
+
+" encoding
+set enc=utf-8
+set fenc=utf-8
+set termencoding=utf-8
+
+" statusline
+set statusline=[%02n]\ %F%m%r%h%w\ [Format:\ %{&ff}]\ [Type:\ %Y]\ [Pos:\ %02l,%02v]\ [Lines:\ %02l/%02L\ -\ %p%%]
+set laststatus=2
+
+" tabline
+function ShortTabLine()
+    let ret = ''
+    for i in range(tabpagenr('$'))
+    " select the color group for highlighting active tab
+        if i + 1 == tabpagenr()
+            let ret .= '%#errorMsg#'
+        else
+            let ret .= '%#TabLine#'
+        endif
+        " find the buffername for the tablabel
+        let buflist = tabpagebuflist(i+1)
+        let winnr = tabpagewinnr(i+1)
+        let buffername = bufname(buflist[winnr - 1])
+        let filename = fnamemodify(buffername,':t')
+        " check if there is no name
+        if filename == ''
+            let filename = 'noname'
+        endif
+        " only show the first 6 letters of the name and
+        " .. if the filename is more than 8 letters long
+        if strlen(filename) >=8
+            let ret .= '['. filename[0:5].'..]'
+        else
+            let ret .= '['.filename.']'
+        endif
+    endfor
+    " after the last tab fill with TabLineFill and reset tab page #
+    let ret .= '%#TabLineFill#%T'
+    return ret
+endfunction
+
+set tabline=%!ShortTabLine()
+
+set wildmenu
+set wildmode=list:longest,full
+
+" Pmenu color
+highlight Pmenu ctermbg=black ctermfg=white
+highlight PmenuSel ctermbg=black ctermfg=red gui=bold
+
+" html generation
+let html_number_lines = 0
+let use_xhtml = 1
+let html_use_css = 1
+let php_sql_query=1
+let php_htmlInStrings=1
+
+" Style warnings
+highlight WhitespaceEOL ctermbg=red guibg=red
+:match WhitespaceEOL /\s\+$/
+:2match ErrorMsg /\%>79v.\+/
+:3match ErrorMsg /\t\+/
+
+" F11 to toggle paste mode
+map <F11> :set invpaste<CR>
+set pastetoggle=<F11>
+
+" Buffer navigation mapping
+map <Leader><Left> :bprev<CR>
+map <Leader><Right> :bnext<CR>
+map <Leader>b :BufExplorer<CR>
+
+" Plugins
+:noremap ,n :NERDTreeToggle<CR>
+let NERDTreeHijackNetrw=1
+let NERDTreeMouseMode=1
+:noremap ,t :TlistToggle<CR>
+:nnoremap <silent> + :exe "resize " . (winheight(0) * 9/8)<CR>
+:nnoremap <silent> - :exe "resize " . (winheight(0) * 8/9)<CR>
+" Templates
+:autocmd BufNewFile * silent! 0r ~/.vim/templates/%:e.tpl

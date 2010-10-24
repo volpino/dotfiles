@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/fox/fb_chat/ettercap-NG-0.7.3/plug-ins/remote_browser'
+let g:netrw_dirhist_2='/home/fox/fb_chat/ettercap-NG-0.7.3/plug-ins/smb_clear'
+let g:netrw_dirhist_3='/home/fox/.lirc'
+let g:netrw_dirhist_4='/etc/conf.d'
+let g:netrw_dirhist_5='/home/fox/.oh-my-zsh/lib'
+let g:netrw_dirhist_6='/home/fox/.oh-my-zsh/themes'

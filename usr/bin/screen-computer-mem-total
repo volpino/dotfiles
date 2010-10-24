@@ -1,0 +1,2 @@
+#!/bin/sh
+free -m | grep "Mem:" | gawk '{print $2}'

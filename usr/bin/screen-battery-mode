@@ -1,0 +1,8 @@
+#! /bin/sh
+MODE=`acpi|gawk '{ print $3 }'`;
+
+if [ $MODE == "Discharging," ]; then
+	echo "v";
+else
+	echo "^";
+fi

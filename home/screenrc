@@ -1,0 +1,18 @@
+pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+
+defscrollback 1024
+defutf8 on
+
+backtick 1 30 30 /usr/bin/screen-battery-state
+backtick 2 30 30 /usr/bin/screen-battery-mode
+backtick 3 1 1 /usr/bin/screen-cpufreq-core1
+backtick 4 1 1 /usr/bin/screen-cpufreq-core2
+backtick 5 5 5 /usr/bin/screen-computer-mem-used
+backtick 6 5 5 /usr/bin/screen-computer-mem-total
+backtick 7 5 5 /usr/bin/screen-computer-fan
+backtick 8 5 5 /usr/bin/screen-temp-core1
+backtick 9 5 5 /usr/bin/screen-temp-core2
+
+hardstatus alwayslastline
+hardstatus string '%{= dd}%{B}[%{W}%c:%s%{B}][%{W}%2`%{B} | %{W}%1`%{B}][%=%{w}%?%-w%?%{B}(%{W}%n%t*%f%?(%u)%?%{B})%{w}%?%+w%?%?%=%{B}][%{W}%3`%{B} | %{W}%4`%{B}][%{W}%8` C%{B} | %{W}%9` C%{B}][%{W}%7` RPM%{B}][%{W}%5`MB%{B} / %{W}%6`MB%{B}]'
+

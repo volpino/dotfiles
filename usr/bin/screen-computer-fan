@@ -1,0 +1,1 @@
+sensors | grep "Exhaust" | sed -e 's/.* \(.*\) RPM .*/\1/' | sed -e 's/\"//g'

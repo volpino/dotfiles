@@ -1,0 +1,145 @@
+# Path to your oh-my-zsh configuration.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set to the name theme to load.
+# Look in ~/.oh-my-zsh/themes/
+export ZSH_THEME="fox2_blue"
+
+# Comment this out to disable weekly auto-update checks
+export DISABLE_AUTO_UPDATE="false"
+
+source $ZSH/oh-my-zsh.sh
+
+# aliases
+alias screen="screen -U"
+alias halt='sudo halt'
+alias reboot='sudo reboot'
+alias mkdir='mkdir -p'
+alias cd..='cd ..'
+alias ls='ls --color=auto'
+alias grep='grep --colour=auto'
+alias startx_nomsg="startx 12&> /dev/null"
+alias update='sudo layman -S; sudo eix-sync'
+alias s2ram='sudo s2ram > /dev/null'
+alias fofix='~/fofix-3.121/dist/FoFiX > /dev/null'
+alias moiosms='~/.MoioSMS-2.18/sms.py 2> /dev/null'
+alias dropbox='.dropbox-dist/dropbox.py'
+# alias -s
+alias -s 'pdf=evince'
+
+#sprunge
+alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
+
+# envars
+export PAGER="most"
+export BROWSER="firefox"
+export EDITOR="vim"
+export LANG="it_IT.UTF-8"
+export LC_ALL="it_IT.UTF-8"
+export LANGUAGE="it_IT.UTF-8"
+export MPD_HOST="localhost"
+export MPD_PORT="6600"
+
+# correction
+setopt correctall
+
+#ignore some commands in history
+HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd:cd ..:cd..:halt:reboot"
+
+# Helps avoid mistakes like 'rm * o' when 'rm *.o' was intended
+setopt RM_STAR_WAIT
+
+# keybinds
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+bindkey '^[[3~' delete-char
+bindkey '^[3;5~' delete-char
+
+# create a zkbd compatible hash;
+# to add other keys to this hash, see: man 5 terminfo
+typeset -A key
+
+key[Home]=${terminfo[khome]}
+key[End]=${terminfo[kend]}
+key[Insert]=${terminfo[kich1]}
+key[Delete]=${terminfo[kdch1]}
+key[Up]=${terminfo[kcuu1]}
+key[Down]=${terminfo[kcud1]}
+key[Left]=${terminfo[kcub1]}
+key[Right]=${terminfo[kcuf1]}
+key[PageUp]=${terminfo[kpp]}
+key[PageDown]=${terminfo[knp]}
+
+for k in ${(k)key} ; do
+    # $terminfo[] entries are weird in ncurses application mode...
+    [[ ${key[$k]} == $'\eO'* ]] && key[$k]=${key[$k]/O/[}
+done
+unset k
+
+# setup key accordingly
+[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
+[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
+[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
+[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
+[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"      up-line-or-history
+[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
+[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
+[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
+
+
+extract () {
+     if [ -f $1 ] ; then
+              case $1 in
+                      *.tar.bz2)   tar xjf $1        ;;
+                      *.tar.gz)    tar xzf $1     ;;
+                      *.bz2)       bunzip2 $1       ;;
+                      *.rar)       rar x $1     ;;
+                      *.gz)        gunzip $1     ;;
+                      *.tar)       tar xf $1        ;;
+                      *.tbz2)      tar xjf $1      ;;
+                      *.tgz)       tar xzf $1       ;;
+                      *.zip)       unzip $1     ;;
+                      *.Z)         uncompress $1  ;;
+                      *.7z)        7z x $1    ;;
+                      *)           echo "'$1' cannot be extracted via extract()" ;;
+                      esac
+     else
+     echo "'$1' is not a valid file"
+     fi
+    }
+
+# ssh host completion
+local _myhosts
+_myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
+zstyle ':completion:*' hosts $_myhosts
+
+# colorized STDERR
+#exec 2>>(while read line; do
+#  print '\e[97m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; done &)
+
+# screen integration
+if [[ ${TERM} == "screen-bce" || ${TERM} == "screen" ]]; then
+  precmd () { print -Pn "\033k\033\134\033k [%1d]\033\134" }
+  preexec () { print -Pn "\033k\033\134\033k [$1]\033\134" }
+else
+  if [[ ${TERM} != "linux" ]]; then
+    precmd () { print -Pn "\e]0;%n@%m: %~\a" }
+    preexec () { print -Pn "\e]0;%n@%m: $1\a" }
+  fi
+fi
+
+# imageshack function by meh.
+imageshack() {
+    curl -silent -H Expect: -F fileupload=@$1 -F xml=yes http://www.imageshack.us/index.php | grep -E '<image_link>' | sed -e 's/.*link>\(.*\)<.*/\1/'
+}
+
+# tinyurl by fox
+tinyurl() {
+   curl -silent "http://tinyurl.com/api-create.php?url=$1" | tail -1 | cut -f 1 -d% | sed -e 's/\"//g'
+}
+
+# Auto xorg startup
+if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
+    screen -d -m startx
+    logout
+fi

@@ -1,0 +1,71 @@
+#include "/home/fox/look-zenburn.xrdb"
+! URxvt settings
+URxvt.scrollBar: false
+URxvt.perl-ext-common: default,matcher
+URxvt.matcher.button: 1
+URxvt.urlLauncher: firefox
+URxvt.colorUL: darkgrey
+URxvt.cursorColor:  grey
+URxvt.pointerColor: grey
+URxvt*background: [90]#2F2F2F
+!URxvt.background: rgba:2500/2500/2500/cccc
+URxvt*foreground: #dcdccc
+URxvt.inheritPixmaps: true
+URxvt*shading: 50
+URxvt*depth: 32
+!URxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=10
+URxvt*font: xft:Monospace:pixelsize=10
+URxvt.boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=10
+!URxvt*transparent: true
+URxvt*tint: grey
+
+!Xterm
+xterm*background: #2F2F2F
+xterm*foreground: #dcdccc
+xterm*faceName: Monospace:pixelsize=10
+
+! Colors
+! black
+*color0:  #1E2320
+*color8:  #709080
+! red
+*color1:  #705050
+*color9:  #ff361e
+! green
+*color2:  #18B218
+*color10: #54FF54
+! yellow
+*color3:  #C3950B
+*color11: #FFFF54
+! blue
+*color4:  #506070
+*color12: #39679F
+! magenta
+*color5:  #dc8cc3
+*color13: #ec93d3
+! cyan
+*color6:  #18B2B2
+*color14: #54FFFF
+! white
+*color7:  #b2b2b2
+*color15: #ffffff
+
+! Xft
+Xft.dpi: 96
+Xft.hinting: 1
+Xft.hintstyle: hintslight
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! XLock
+XLock.username:      Username:
+XLock.password:      Password:
+XLock.foreground:    AntiqueWhite
+XLock.background:    Gray20
+XLock.description:   false
+XLock.echokeys:      true
+XLock.echokey:       *
+XLock.validate:      wait...
+XLock.invalid:       Login failed. Go away fuckin' imposer
+XLock.font:          fixed
+XLock.info:          This is not a computer, it's my wife. Keep your hand off of her.
